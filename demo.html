@@ -1,0 +1,151 @@
+<html>
+
+<head>
+    <title>FLAPPER DEMO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+    <link href="css/flapper.css" type="text/css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="src/jquery.transform-0.9.3.min.js"></script>
+    <script src="src/jquery.flapper.js"></script>
+    <script src="src/flapdemo.js"></script>
+    <style type="text/css">
+        body {
+            font-family: Roboto Condensed, sans-serif;
+            color: #333;
+            margin: 0px;
+            background-color: black;
+            font-size: 16px;
+        }
+
+        .page {
+            margin: 0px;
+        }
+
+        .display-container {
+            position: relative;
+            /* height: 100vh;
+            width: 100vw; */
+        }
+
+        .business-name {
+            color: #999;
+            position: absolute;
+            font-size: 24px;
+            font-weight: bold;
+            top: 10px;
+            right: 40px;
+            letter-spacing: 0.5;
+        }
+
+        .footer-display {}
+
+        .footer-display .number {
+            position: absolute;
+            bottom: 15px;
+            left: 40px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #999;
+        }
+
+        .footer-display .weblink {
+            position: absolute;
+            bottom: 20px;
+            right: 40px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #999;
+        }
+
+        .displays {
+            padding: 30px;
+            border: 10px solid #ccc;
+            background-color: #222;
+            box-shadow: 0 0 12px 4px #000 inset;
+            height: calc(100vh - 80px);
+        }
+
+        .flapper {
+            text-align: center;
+        }
+
+        .inputarea {
+            margin: 24px 0;
+        }
+
+        #typesomething,
+        #showme {
+            font-family: Roboto Condensed;
+            font-size: 18px;
+            padding: 14px;
+            background-color: #EEE;
+            color: #333;
+            border: 0;
+            height: 170px;
+        }
+
+        #typesomething {
+            width: 300px;
+        }
+
+        #showme:hover {
+            background-color: #DDD;
+        }
+
+        #showme:active {
+            background-color: #CCC;
+        }
+
+        div.inline {
+            display: inline-block;
+            vertical-align: bottom;
+        }
+
+        div.activity {
+            width: 12px;
+            height: 12px;
+            border-radius: 6px;
+            background-color: #250000;
+            position: absolute;
+            top: 50%;
+            margin-top: -6px;
+            left: -15px;
+        }
+
+        div.activity.active {
+            background-color: #f00;
+        }
+
+        .display-block {
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <div class="display-container">
+            <div class="business-name">Your Business</div>
+            <div class="displays">
+                <!-- <div class="display-block"><div class="activity"></div><input class="display" /></div>
+                <div class="display-block"><div class="activity"></div><input class="display" /></div>
+                <div class="display-block"><div class="activity"></div><input class="display" /></div>
+                <div class="display-block"><div class="activity"></div><input class="display" /></div>
+                <div class="display-block"><div class="activity"></div><input class="display" /></div>
+                <div class="display-block"><div class="activity"></div><input class="display" /></div> -->
+            </div>
+            <div class="footer-display">
+                <div class="number">SMS:555-555-1212</div>
+                <div class="weblink">example.com</div>
+            </div>
+        </div>
+        <div class="inputarea">
+                
+            <div class="inline"><textarea id="typesomething" placeholder="Type Something Here..." rows="6" cols="20"></textarea></div>
+            <div class="inline"><textarea id="secondLine" placeholder="Type Something Here..." rows="6" cols="20"></textarea></div>
+            <div class="inline"><button id="showme">And Click Here</button></div>
+        </div>
+    </div>
+</body>
+
+</html>
