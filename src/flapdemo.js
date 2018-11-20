@@ -41,7 +41,7 @@ FlapBuffer.prototype = {
 
 };
 
-var FlapDemo = function (display_selector, input_selector, click_selector) {
+var FlapDemo = function (display_selector, input_selector, click_selector, size) {
     var _this = this;
 
     var onAnimStart = function (e) {
@@ -95,11 +95,14 @@ var FlapDemo = function (display_selector, input_selector, click_selector) {
     }
 
     // var rows = Math.floor(blockHeight / rowHeight);
-    var rows = 1;
+    var rows = size;
     var htmlBlock = "";
     for (var i = 0; i < rows; i++) {
         htmlBlock += '<div class="display-block"><div class="activity"></div><input class="display'+i+'" /></div>';
     }
+    // for (var i = 0; i < rows; i++) {
+    //     htmlBlock += '<div class="display-block"><div class="activity"></div><input class="display" /></div>';
+    // }
 
     $(".display-container .displays").html(htmlBlock);
 
@@ -173,32 +176,49 @@ var FlapDemo = function (display_selector, input_selector, click_selector) {
     };
 
     this.timers = [];
-
-    this.$displays = $(display_selector);
+    var k = []
+    display_selector.forEach(element => {
+         k.push($(element));
+        $(element).flapper(this.opts);
+        
+    });
+    this.$displays = k
     this.num_lines = this.$displays.length;
 
-    this.line_delay = 300;
-    this.screen_delay = 7000;
+        this.line_delay = 300;
+        this.screen_delay = 7000;
+ 
+    
 
-    this.$displays.flapper(this.opts);
+    // input_selector.forEach(element => {
+    //     this.$typesomething = $(element);
+    // });
 
-    this.$typesomething = $(input_selector);
+    
 
     $(click_selector).click(function (e) {
-        var text = _this.cleanInput(_this.$typesomething.val());
-        console.log(text)
-        _this.$typesomething.val('');
+        console.log(input_selector)
+        var buffers = [];
+        input_selector.forEach(element => {
+            // this.$typesomething = $(element);
+            var text = _this.cleanInput(element);
 
-        if (text.match(/what is the point/i) || text.match(/what's the point/i)) {
-            text = "WHAT'S THE POINT OF YOU?";
-        }
-
-        var buffers = _this.parseInput(text);
-
+           
+            console.log(text)
+            // $(element).val('');
+    
+            if (text.match(/what is the point/i) || text.match(/what's the point/i )||text === "") {
+                text = "WHAT'S THE POINT OF YOU?";
+            }
+            // console.log(_this.parseInput(text))
+            var t = _this.parseInput(text);
+             buffers.push(t[0]);      
+        });
         _this.stopDisplay();
-        _this.updateDisplay(buffers);
-
-        e.preventDefault();
+            _this.updateDisplay(buffers);
+    
+            e.preventDefault();
+       
     });
 };
 
@@ -221,7 +241,7 @@ FlapDemo.prototype = {
         }
 
         buffer.flush();
-        return buffer.buffers;
+        return buffer.buffers[0];
     },
 
     stopDisplay: function () {
@@ -234,28 +254,9 @@ FlapDemo.prototype = {
 
     updateDisplay: function (buffers) {
         var _this = this;
-        var timeout = 100;
-
         for (i in buffers) {
-
-            _this.$displays.each(function (j) {
-
-                var $display = $(_this.$displays[j]);
-
-                (function (i, j) {
-                    _this.timers.push(setTimeout(function () {
-                        if (buffers[i][j]) {
-                            $display.val(buffers[i][j]).change();
-                        } else {
-                            $display.val('').change();
-                        }
-                    }, timeout));
-                }(i, j));
-
-                timeout += _this.line_delay;
-            });
-
-            timeout += _this.screen_delay;
+                var $display = $(_this.$displays[i]);
+                    $display.val(buffers[i]).change();
         }
     }
 
@@ -263,13 +264,52 @@ FlapDemo.prototype = {
 
 $(document).ready(function () {
 
-    new FlapDemo('input.display1', '#typesomething', '#showme');
-    new FlapDemo('input.display0', '#secondLine', '#showme');
+    // new FlapDemo('input.display1', '#typesomething', '#showme');
+
+    var userData = {
+        Temp:'Temp 30 Deg',
+        Rainy:'Rainy Yes',
+        Day:'Day Sunday'
+    }
+    var size = Object.keys(userData).length;
+    var display_selector = [];
+    var input_selector = [];
+    for (var i = 0; i < size; i++) {
+        display_selector.push('input.display'+i);
+    }
+    for (var key in userData) {
+        if (userData.hasOwnProperty(key)) {
+            console.log(key + " -> " + userData[key]);
+            input_selector.push(userData[key])
+        }
+    }
+
+
+    new FlapDemo(display_selector,input_selector, '#showme',size);
 });
 
 $(window).resize(function () {
     $("#showme").unbind("click");
-    new FlapDemo('input.display0', '#typesomething', '#showme');
+    var userData = {
+        Temp:'Temp 30 Deg',
+        Rainy:'Rainy Yes',
+        Day:'Day Sunday'
+    }
+    var size = Object.keys(userData).length;
+    var display_selector = [];
+    var input_selector = [];
+    for (var i = 0; i < size; i++) {
+        display_selector.push('input.display'+i);
+    }
+    for (var key in userData) {
+        if (userData.hasOwnProperty(key)) {
+            input_selector.push(userData[key])
+        }
+    }
+
+
+    new FlapDemo(display_selector,input_selector, '#showme',size);
+    // new FlapDemo(['input.display0,input.display1'], ['#typesomething','#secondLine'], '#showme');
     // new FlapDemo('input.display1', '#secondLine', '#showme');
    
 })
