@@ -100,70 +100,41 @@ var FlapDemo = function (display_selector, input_selector, click_selector, size)
     for (var i = 0; i < rows; i++) {
         htmlBlock += '<div class="display-block"><div class="activity"></div><input class="display'+i+'" /></div>';
     }
-    // for (var i = 0; i < rows; i++) {
-    //     htmlBlock += '<div class="display-block"><div class="activity"></div><input class="display" /></div>';
-    // }
-
+ 
     $(".display-container .displays").html(htmlBlock);
+    for (var i = 0; i < rows; i++) {
+        if (windowWidth >= 2500) {
+            $(".display-container .display"+i+"").addClass("XXL");
+            calculateWidth = 23;
+        } else if (windowWidth >= 2200) {
+            $(".display-container .display"+i+"").addClass("XXL");
+            calculateWidth = 20;
+        } else if (windowWidth >= 1920) {
+            $(".display-container .display"+i+"").addClass("XL");
+            calculateWidth = 23;
+        } else if (windowWidth >= 1326) {
+            $(".display-container .display"+i+"").addClass("L");
+        } else if (windowWidth >= 1024) {
+            $(".display-container .display"+i+"").addClass("M");
+        } else if (windowWidth >= 768) {
+            $(".display-container .display"+i+"").addClass("S");
+        } else if (windowWidth >= 600) {
+            $(".display-container .display"+i+"").addClass("S");
+            calculateWidth = 15;
+        } else if (windowWidth >= 425) {
+            $(".display-container .display"+i+"").addClass("XS");
+            calculateWidth = 12;
+        } else if (windowWidth >= 375) {
+            $(".display-container .display"+i+"").addClass("XS");
+            calculateWidth = 10;
+        } else if (windowWidth >= 320) {
+            $(".display-container .display"+i+"").addClass("XS");
+            calculateWidth = 8;
+        }
+    }
 
-    // if (windowWidth >= 2500) {
-    //     $(".display-container .display0").addClass("XXL");
-    //     calculateWidth = 23;
-    // } else if (windowWidth >= 2200) {
-    //     $(".display-container .display0").addClass("XXL");
-    //     calculateWidth = 20;
-    // } else if (windowWidth >= 1920) {
-    //     $(".display-container .display0").addClass("XL");
-    //     calculateWidth = 23;
-    // } else if (windowWidth >= 1326) {
-    //     $(".display-container .display0").addClass("L");
-    // } else if (windowWidth >= 1024) {
-    //     $(".display-container .display0").addClass("M");
-    // } else if (windowWidth >= 768) {
-    //     $(".display-container .display0").addClass("S");
-    // } else if (windowWidth >= 600) {
-    //     $(".display-container .display0").addClass("S");
-    //     calculateWidth = 15;
-    // } else if (windowWidth >= 425) {
-    //     $(".display-container .display0").addClass("XS");
-    //     calculateWidth = 12;
-    // } else if (windowWidth >= 375) {
-    //     $(".display-container .display0").addClass("XS");
-    //     calculateWidth = 10;
-    // } else if (windowWidth >= 320) {
-    //     $(".display-container .display0").addClass("XS");
-    //     calculateWidth = 8;
-    // }
 
-
-    // if (windowWidth >= 2500) {
-    //     $(".display-container .display1").addClass("XXL");
-    //     calculateWidth = 23;
-    // } else if (windowWidth >= 2200) {
-    //     $(".display-container .display1").addClass("XXL");
-    //     calculateWidth = 20;
-    // } else if (windowWidth >= 1920) {
-    //     $(".display-container .display1").addClass("XL");
-    //     calculateWidth = 23;
-    // } else if (windowWidth >= 1326) {
-    //     $(".display-container .display1").addClass("L");
-    // } else if (windowWidth >= 1024) {
-    //     $(".display-container .display1").addClass("M");
-    // } else if (windowWidth >= 768) {
-    //     $(".display-container .display1").addClass("S");
-    // } else if (windowWidth >= 600) {
-    //     $(".display-container .display1").addClass("S");
-    //     calculateWidth = 15;
-    // } else if (windowWidth >= 425) {
-    //     $(".display-container .display1").addClass("XS");
-    //     calculateWidth = 12;
-    // } else if (windowWidth >= 375) {
-    //     $(".display-container .display1").addClass("XS");
-    //     calculateWidth = 10;
-    // } else if (windowWidth >= 320) {
-    //     $(".display-container .display1").addClass("XS");
-    //     calculateWidth = 8;
-    // }
+    
     boxWidth = boxWidth + 6;
     calculateWidth = Math.floor(blockWidth / boxWidth);
 
@@ -214,6 +185,31 @@ var FlapDemo = function (display_selector, input_selector, click_selector, size)
             var t = _this.parseInput(text);
              buffers.push(t[0]);      
         });
+
+
+        // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCswi2pQUiQ-VPHnoqzo9or-GX9U4VAUwU",
+        authDomain: "flapper1-4a170.firebaseapp.com",
+        databaseURL: "https://flapper1-4a170.firebaseio.com",
+        projectId: "flapper1-4a170",
+        storageBucket: "flapper1-4a170.appspot.com",
+        messagingSenderId: "583876743552"
+      };
+  
+      firebase.initializeApp(config);
+  
+      var ref = firebase.database().ref('users/1');                           
+  
+      ref.on("value", function(snapshot) {
+          var buffers = _this.parseInput(snapshot.val().message);
+          console.log(buffers)
+  
+        //   _this.stopDisplay();
+        //   _this.updateDisplay(buffers);
+  
+        //   e.preventDefault();
+      });
         _this.stopDisplay();
             _this.updateDisplay(buffers);
     
